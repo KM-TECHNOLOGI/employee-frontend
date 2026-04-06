@@ -1,5 +1,4 @@
 import { inject } from '@angular/core';
-
 import { mapResponse } from '@ngrx/operators';
 import {
     signalStore,
@@ -14,11 +13,9 @@ import {
     withReducer,
 } from '@ngrx/signals/events';
 import { switchMap } from 'rxjs';
-import { Employee } from './employee.model';
+import { Employee, PageResponse } from './employee.model';
 import { employeeEvents } from './employee.event';
 import { EmployeeService } from './employee.service';
-
-
 
 interface EmployeeState {
     employees: Employee[];
@@ -37,9 +34,9 @@ export const EmployeeStore = signalStore(
 
     withState(initialState),
 
-    withComputed((state) => ({ })),
+    withComputed((state) => ({})),
 
-    withMethods((store) => ({ })),
+    withMethods((store) => ({})),
 
     withReducer(
         on(employeeEvents.loadEmployees, (state) => ({
@@ -49,7 +46,7 @@ export const EmployeeStore = signalStore(
         })),
         on(employeeEvents.loadEmployeesSuccess, ({ payload }, state) => ({
             ...state,
-            employees: payload,
+            employees: payload.content, // ✅ tab use hoga
             loading: false,
         })),
         on(employeeEvents.loadEmployeesFailed, ({ payload }, state) => ({
@@ -92,17 +89,15 @@ export const EmployeeStore = signalStore(
             error: payload.error,
             loading: false,
         })),
-
     ),
 
-     withEventHandlers(
-
+    withEventHandlers(
         (store, employeeService: EmployeeService = inject(EmployeeService), events = inject(Events)) => ({
             loadEmployees$: events.on(employeeEvents.loadEmployees).pipe(
                 switchMap(() =>
                     employeeService.getAllEmployees().pipe(
                         mapResponse({
-                            next: (response: Employee[]) => employeeEvents.loadEmployeesSuccess(response),
+                            next: (response: PageResponse<Employee>) => employeeEvents.loadEmployeesSuccess(response),
                             error: (error) => employeeEvents.loadEmployeesFailed({ error }),
                         }),
                     ),
@@ -111,14 +106,21 @@ export const EmployeeStore = signalStore(
 
             // create Employee
             createEmployee$: events.on(employeeEvents.createEmployee).pipe(
-                switchMap(({ payload }) =>
-                    employeeService.createEmployee(payload).pipe(
+                switchMap(({ payload }) => {
+                    console.log('Effect triggered payload:', payload);
+                    return employeeService.createEmployee(payload).pipe(
                         mapResponse({
-                            next: (response: Employee) => employeeEvents.createEmployeeSuccess(response),
-                            error: (error) => employeeEvents.createEmployeeFailed({ error }),
+                            next: (response) => {
+                                console.log('API response:', response);
+                                return employeeEvents.createEmployeeSuccess(response);
+                            },
+                            error: (error) => {
+                                console.error('API error:', error);
+                                return employeeEvents.createEmployeeFailed({ error });
+                            },
                         }),
-                    ),
-                ),
+                    );
+                }),
             ),
 
             // update Employee
@@ -134,5 +136,4 @@ export const EmployeeStore = signalStore(
             ),
         }),
     ),
-    
 );

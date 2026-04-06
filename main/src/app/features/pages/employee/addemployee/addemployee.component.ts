@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 
 // Common
 import { CommonModule } from '@angular/common';
+import { employeeEvents, EmployeeStore } from 'src/app/store/EmployeeMasterData';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-addemployee',
@@ -29,14 +31,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./addemployee.component.scss']
 })
 export class AddemployeeComponent implements OnInit {
-
   employeeForm!: FormGroup;
-
   private dispatcher = inject(Dispatcher);
-
   departments = ['HR', 'Finance', 'Development', 'Sales', 'Marketing'];
+  dialog = inject(MatDialog);
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.employeeForm = this.fb.group({
@@ -53,19 +53,16 @@ export class AddemployeeComponent implements OnInit {
       return;
     }
 
-    console.log('Employee Data:', this.employeeForm.value);
+    const request = { ...this.employeeForm.value };
+    console.log('Dispatching createEmployee:', request);
 
-    // 👉 yahan tum API call ya SignalStore call kar sakte ho
-    // this.store.addEmployee(this.employeeForm.value);
-
-    this.router.navigate(['/employees']);
+    this.dispatcher.dispatch(employeeEvents.createEmployee(request));
   }
 
   cancel() {
-    this.router.navigate(['/employees']);
+    this.dialog.closeAll();
   }
 
-  // getter for template
   get f() {
     return this.employeeForm.controls;
   }

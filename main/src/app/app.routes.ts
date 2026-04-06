@@ -24,6 +24,13 @@ export const routes: Routes = [
             (m) => m.UiComponentsRoutes
           ),
       },
+         {
+        path: 'EmpMasterData',
+        loadChildren: () =>
+          import('./features/pages/employee/employees.routes').then(
+            (m) => m.EmployeeRoutes
+          ),
+      },
       {
         path: 'extra',
         loadChildren: () =>

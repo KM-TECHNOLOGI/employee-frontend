@@ -1,0 +1,4 @@
+.custom-dialog-container .mat-dialog-content {
+  max-height: 80vh; // content ka max height
+  overflow-y: auto; // vertical scroll
+}

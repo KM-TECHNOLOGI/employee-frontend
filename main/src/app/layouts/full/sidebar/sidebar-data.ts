@@ -43,9 +43,14 @@ export const navItems: NavItem[] = [
     navCap: 'Pages',
   },
   {
-    displayName: 'Employee Master Data',
+    displayName: 'Add Employee',
     iconName: 'solar:file-text-line-duotone',
-    route: '/ui-components/employee-master-data',
+    route: '/EmpMasterData/addEmployee',
+  },
+  {
+    displayName: 'Employee List',
+    iconName: 'solar:file-text-line-duotone',
+    route: '/EmpMasterData/employeeList',
   },
   {
     displayName: 'Forms',

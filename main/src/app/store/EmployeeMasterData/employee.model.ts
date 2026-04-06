@@ -15,10 +15,10 @@ export interface EmployeeCreateRequest {
 
 // Pagination response interface
 export interface PageResponse<T> {
-  content: T[];
-  totalPages: number;
-  totalElements: number;
-  number: number;
+	content: T[];
+	totalPages: number;
+	totalElements: number;
+	number: number;
 }
 
 

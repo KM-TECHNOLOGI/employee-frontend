@@ -28,7 +28,8 @@
                 {{ dept }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="f['department'].invalid && f['department'].touched">
+            <mat-error
+              *ngIf="f['department'].invalid && f['department'].touched">
               Department is required
             </mat-error>
           </mat-form-field>
@@ -49,7 +50,8 @@
         <div class="col-span-12 lg:col-span-6">
           <mat-label class="font-semibold mb-2 block">Salary</mat-label>
           <mat-form-field appearance="outline" class="w-full">
-            <input matInput type="number" formControlName="salary" placeholder="Enter salary" />
+            <input matInput type="number" formControlName="salary"
+              placeholder="Enter salary" />
             <mat-error *ngIf="f['salary'].invalid && f['salary'].touched">
               Salary must be at least 1000
             </mat-error>
@@ -63,7 +65,8 @@
         <button mat-flat-button color="primary" type="submit" class="me-2">
           Submit
         </button>
-        <button mat-stroked-button color="warn" type="button" (click)="cancel()">
+        <button mat-stroked-button color="warn" type="button"
+          (click)="cancel()">
           Cancel
         </button>
       </div>

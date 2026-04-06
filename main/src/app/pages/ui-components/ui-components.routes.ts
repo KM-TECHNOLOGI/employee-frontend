@@ -8,7 +8,6 @@ import { AppMenuComponent } from './menu/menu.component';
 import { AppTooltipsComponent } from './tooltips/tooltips.component';
 import { AppFormsComponent } from './forms/forms.component';
 import { AppTablesComponent } from './tables/tables.component';
-import { AddemployeeComponent } from './addemployee/addemployee.component';
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -33,10 +32,6 @@ export const UiComponentsRoutes: Routes = [
       {
         path: 'tooltips',
         component: AppTooltipsComponent,
-      },
-      {
-        path: 'employee-master-data',
-        component: AddemployeeComponent,
       },
       {
         path: 'forms',
