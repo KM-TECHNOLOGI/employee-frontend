@@ -40,8 +40,8 @@ export class EmployeeService {
   }
 
   // ✅ Delete Employee
-  deleteEmployee(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
+  deleteEmployee(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.api}/${id}`);
   }
 
 }

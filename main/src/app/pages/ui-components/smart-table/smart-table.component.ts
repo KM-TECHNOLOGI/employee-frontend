@@ -73,6 +73,7 @@ export class SmartTableComponent {
   @Input() title: string = '';
   @Output() add = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<number>();
 
   @Input() showAdd: boolean = true;
 
@@ -106,12 +107,13 @@ export class SmartTableComponent {
   // ✏️ Edit Action
   onEdit(row: any) {
     console.log('Edit clicked', row);
-    this.edit.emit(); // 🔥 parent ko notify
+    this.edit.emit(row); // 🔥 parent ko notify
   }
 
   // 🗑️ Delete Action
-  onDelete(row: any) {
-    console.log('Delete:', row);
+  onDelete(id: number) {
+    console.log('Delete:', id);
+    this.delete.emit(id); // 🔥 parent ko notify
   }
 
 }

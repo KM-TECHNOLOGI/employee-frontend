@@ -89,6 +89,23 @@ export const EmployeeStore = signalStore(
             error: payload.error,
             loading: false,
         })),
+
+            // delete Employee
+        on(employeeEvents.deleteEmployee, (state) => ({
+            ...state,
+            loading: true,
+            error: null,
+        })),
+        on(employeeEvents.deleteEmployeeSuccess, ({ payload }, state) => ({
+            ...state,
+            loading: false,
+            employees: state.employees.filter(e => e.id !== payload.id),
+        })),
+        on(employeeEvents.deleteEmployeeFailed, ({ payload }, state) => ({
+            ...state,
+            error: payload.error,
+            loading: false,
+        })),
     ),
 
     withEventHandlers(
@@ -130,6 +147,18 @@ export const EmployeeStore = signalStore(
                         mapResponse({
                             next: (response: Employee) => employeeEvents.updateEmployeeSuccess(response),
                             error: (error) => employeeEvents.updateEmployeeFailed({ error }),
+                        }),
+                    ),
+                ),
+            ),
+
+            // delete Employee
+            deleteEmployee$: events.on(employeeEvents.deleteEmployee).pipe(
+                switchMap(({ payload }) =>
+                    employeeService.deleteEmployee(payload.id).pipe(
+                        mapResponse({
+                            next: (response) => employeeEvents.deleteEmployeeSuccess(response),
+                            error: (error) => employeeEvents.deleteEmployeeFailed({ error }),
                         }),
                     ),
                 ),

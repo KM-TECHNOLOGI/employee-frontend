@@ -1,7 +1,7 @@
 import { Component, effect, inject } from '@angular/core';
 import { Dispatcher } from '@ngrx/signals/events';
 import { SmartTableComponent } from 'src/app/pages/ui-components/smart-table/smart-table.component';
-import { employeeEvents, EmployeeStore } from 'src/app/store/EmployeeMasterData';
+import { Employee, employeeEvents, EmployeeStore } from 'src/app/store/EmployeeMasterData';
 import { MatDialog, MatDialogTitle } from '@angular/material/dialog';
 import { AddemployeeComponent } from '../addemployee/addemployee.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +19,8 @@ export class EmployeelistComponent {
   dialog = inject(MatDialog);
 
   employees: any[] = [];
+
+  action: string = '';
 
   displayedColumns = ['name', 'department', 'email', 'salary'];
 
@@ -38,15 +40,22 @@ export class EmployeelistComponent {
 
   AddEmployee() {
     this.dialog.open(AddemployeeComponent, {
-      data: {
-        animal: 'panda',
-      },
-    disableClose: true,
+      data: { mode: 'create' },
+      disableClose: true,
     });
   }
 
-  EditEmployee(){
-    alert("edit")
+  EditEmployee(row: any) {
+    console.log('EditEmployee called', this.employees);
+    this.dialog.open(AddemployeeComponent, {
+      data: { mode: 'edit', employee: row },
+      disableClose: true,
+    });
+  }
+
+  DeleteEmployee(row: any) {
+    console.log('DeleteEmployee called with id:', row.id);
+    this.dispatcher.dispatch(employeeEvents.deleteEmployee({ id: row.id }));
   }
 
 }

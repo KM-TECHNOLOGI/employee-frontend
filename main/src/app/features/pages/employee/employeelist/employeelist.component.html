@@ -3,6 +3,7 @@
     [dataSource]="employees"
     [displayedColumns]="displayedColumns"
     (add)="AddEmployee()"
-    (edit)="EditEmployee()"
+    (edit)="EditEmployee($event)"
+    (delete)="DeleteEmployee($event)"
     >
 </app-smart-table>

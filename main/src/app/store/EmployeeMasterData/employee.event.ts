@@ -5,19 +5,24 @@ import { Employee, EmployeeCreateRequest, PageResponse } from './employee.model'
 export const employeeEvents = eventGroup({
   source: 'Employee API',
   events: {
-    // Load Department Events
+    // Load Employee Events
     loadEmployees: type<void>(),
     loadEmployeesSuccess: type<PageResponse<Employee>>(),
     loadEmployeesFailed: type<{ error: unknown }>(),
 
-    // Create Department Events
+    // Create Employee Events
     createEmployee: type<EmployeeCreateRequest>(),
     createEmployeeSuccess: type<Employee>(),
     createEmployeeFailed: type<{ error: unknown }>(),
 
-    //update Department Events
+    //update Employee Events
     updateEmployee: type<{ id: number; request: EmployeeCreateRequest }>(),
     updateEmployeeSuccess: type<Employee>(),
     updateEmployeeFailed: type<{ error: unknown }>(),
+
+    //delete Employee Events
+    deleteEmployee: type<{ id: number }>(),
+    deleteEmployeeSuccess: type<Employee>(),
+    deleteEmployeeFailed: type<{ error: unknown }>(),
   },
 });
